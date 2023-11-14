@@ -24,18 +24,18 @@ export default {
           letterSpacing: '0.04vw',
           fontWeight: '400',
         }],
-        'amount': [clampBuilder(smallestViewPort, largestViewPort, 2.15, 2.8), {
-          lineHeight: clampBuilder(smallestViewPort, largestViewPort, 2.45, 2.9),
+        'amount': [clampBuilder(smallestViewPort, largestViewPort, 1.25, 2.4), {
+          lineHeight: clampBuilder(smallestViewPort, largestViewPort, 1.75, 2.8),
           letterSpacing: '0.07vw',
           fontWeight: '600',
         }],
-        'unit': [clampBuilder(smallestViewPort, largestViewPort, 2.0, 2.8), {
-          lineHeight: clampBuilder(smallestViewPort, largestViewPort, 2.45, 2.9),
+        'unit': [clampBuilder(smallestViewPort, largestViewPort, 1.25, 2.4), {
+          lineHeight: clampBuilder(smallestViewPort, largestViewPort, 1.75, 2.8),
           letterSpacing: '0.04vw',
           fontWeight: '400',
         }],
-        'sub': [clampBuilder(smallestViewPort, largestViewPort, 1.75, 2.1), {
-          lineHeight: clampBuilder(smallestViewPort, largestViewPort, 2.0, 2.4),
+        'sub': [clampBuilder(smallestViewPort, largestViewPort, 1.25, 2.1), {
+          lineHeight: clampBuilder(smallestViewPort, largestViewPort, 1.75, 2.4),
           letterSpacing: '0.05vw',
           fontWeight: '600',
         }],

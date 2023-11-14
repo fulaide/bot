@@ -24,13 +24,13 @@ export let featured = false
     border border-white/40 z-10 " 
     class:col-span-3={featured} >
 
-    <span class="text-label  md:text-xl text-[--brand] group-hover:text-[--brand] group-hover:font-semibold">
+    <span class="text-label  text-[--brand] group-hover:text-[--brand] group-hover:font-semibold">
         {content.label}
     </span>
-    <span class="text-amount md:text-3xl font-semibold text-white">
+    <span class="text-amount  font-semibold text-white">
         {content.amount}
     </span>
-    <span class="text-unit  md:text-3xl text-white/10  group-hover:text-white/70 group-hover:font-semibold">
+    <span class="text-unit  text-white/10  group-hover:text-white/70 group-hover:font-semibold mb-4">
         {content.unit}
     </span>
 
