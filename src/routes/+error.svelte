@@ -1,5 +1,5 @@
 <script>
-    let message = "404"
+    let message = "Can't load data"
 </script>
 
 <main class="w-full min-h-[100vh] bg-[--base] overflow-x-hidden" id="error">

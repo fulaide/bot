@@ -112,10 +112,13 @@
         <Tile content={volume} />
         <Tile content={tvl} />
         <Tile content={rank} />
-        <Tile content={onchain} />
-        <Tile content={defiVol} />
-        <Tile content={tx} />
-        <Book book={data.book} />
+        
+        <Tile content={tx}  />
+        <Tile content={defiVol}  />
+        
+        <Tile content={onchain} featured />
+        <Book book={data.book}  />
+        
     
     </div>
 </section>

@@ -3,7 +3,7 @@
     "scope": "/",
     "start_url": "/",
     "name": "Shimmer EVM Dashboard",
-    "background_color": "#00E0CA",
+    "background_color": "#061A28",
     "short_name": "EVM Dash",
     "description": "Shimmer EVM dashboard, featuring Latest Price, Volume, Defi Rank, TX volume, and much more",
     "icons": [
