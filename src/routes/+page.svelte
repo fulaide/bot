@@ -1,7 +1,9 @@
 <script>
   import Price from "$lib/components/Price.svelte";
 
-  export let data
+ export let data
+
+   //$: console.log(data)
 </script>
  
 <svelte:head>

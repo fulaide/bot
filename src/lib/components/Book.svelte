@@ -12,7 +12,7 @@
 
 
 <ul class="order-book grid w-full p-3 md:p-6 bg-gradient-to-t from-transparent to-transparent backdrop-blur-md border border-white/40 z-10 col-span-full">
-    <span class="text-lg md:text-xl text-[--brand]">
+    <span class="text-lg md:text-xl text-white/40">
         {labels.main}
     </span>
 
@@ -40,11 +40,11 @@
                     </span>
                 </div>
 
-                <span class="buy text-lg md:text-3xl font-semibold text-green-700">
+                <span class="buy text-lg md:text-3xl font-semibold text-[--brand]">
                     {item.neg}
                 </span>
 
-                <span class="buy text-lg md:text-3xl font-semibold text-red-700">
+                <span class="buy text-lg md:text-3xl font-semibold text-red-100/80">
                     {item.pos}
                 </span>
             </li>

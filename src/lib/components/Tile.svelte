@@ -5,6 +5,8 @@ export let content = {
     unit: "$",
     source: "Bitfinex",
 }
+
+export let trend = undefined
 // export let trend = {
 //     amount: "1,45",
 //     unit: "%",
@@ -24,7 +26,7 @@ export let featured = false
     border border-white/40 z-10 " 
     class:col-span-2={featured} >
 
-    <span class="text-label  text-[--brand] group-hover:hidden  group-hover:text-[--brand] group-hover:font-semibold">
+    <span class="text-label  text-white/40 group-hover:hidden  group-hover:text-[--brand] group-hover:font-semibold">
         {content.label}
     </span>
 
@@ -42,6 +44,14 @@ export let featured = false
         {content.source} 
     </span>
 
+
+    {#if trend}
+        <div class="grid place-content-end justify-start  auto-rows-max">
+            <span class="text-xl text-white/40">
+                {trend.arrow} {trend.amount} {trend.unit} 
+            </span>
+        </div>
+    {/if}
     
     <!-- <div class="grid place-content-end justify-start  auto-rows-max invisible group-hover:visible">
         <span class="text-label text-white/40">
@@ -52,9 +62,5 @@ export let featured = false
         </span>
     </div> -->
 
-    <!-- <div class="grid place-items-end">
-        <span class="text-xl text-white/40">
-            {trend.arrow} {trend.amount} {trend.unit} 
-        </span>
-    </div> -->
+    
 </div>

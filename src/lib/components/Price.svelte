@@ -19,10 +19,11 @@
 
     $: {
         if (browser) { 
-            formatData(data)
-            // console.log(
-            //     "browser", data
-            // )
+            formatData(data.pageData)
+            console.log(
+                "browser", data
+            )
+            formatTrendData(data.trendDataPrice)
         }
     }
 
@@ -34,6 +35,16 @@
     let tvl = {}
     let tx = {}
     let defiVol = {}
+
+    let priceTrend = {}
+
+    async function formatTrendData(dat) {
+        priceTrend = {
+            amount: dat.differance,
+            unit: "%",
+            arrow: dat.trend,
+        }
+    }
 
     async function formatData(dat) {
 
@@ -81,6 +92,9 @@
         }
     } 
 
+
+
+
 </script>
 
 
@@ -109,7 +123,7 @@
     
     <div class="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4  gap-3 md:gap-6">
         
-        <Tile content={price} featured={false} />
+        <Tile content={price} featured={false} trend={priceTrend} />
         <Tile content={volume} />
         <Tile content={tvl} />
         <Tile content={rank} />
@@ -118,14 +132,14 @@
         <Tile content={defiVol}  />
         
         <Tile content={onchain} featured />
-        <Book book={data.book}  />
+        <Book book={data.pageData.book}  />
         
     
     </div>
 
     <footer class="sticky bottom-0 left-0 pt-5">
         <span class="text-eyebrow  text-white/30  ">
-            Data at: {data.currentTime} <span class="text-sm">- No guarantee for accuracy - this is not trading advice. Do your own research!</span>
+            Data at: {data.pageData.currentTime} <span class="text-sm">- No guarantee for accuracy - this is not trading advice. Do your own research!</span>
         </span>
     </footer>
 </section>

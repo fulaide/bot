@@ -1,6 +1,4 @@
 import { redirect } from '@sveltejs/kit'
-// import {version, exchanges, bitfinex, binance, } from 'ccxt';
-// import nav from "$lib/api/nav.js"
 
 
 
@@ -20,12 +18,16 @@ import { formatCurrency , formatShimmerAmount} from "./../lib/helper/formatting.
 // const percentageLevels = [-2, 2, -5, 5, -10, 10, -20, 20];
 
 
-async function main() {
 
-}
+///firebase Trends
+import { getLastNDaysDataFromFirestore } from './../lib/utils/firebase.js'
+import { calculateAveragePrice, analyzePriceTrend } from './../lib/utils/trend.js'
 
 
-export const load = async ({ params, event, fetch  }) => {    
+
+/////main API calls to fetch data
+async function main(fetch) {
+
 
     ///set Time of call
     const currentTime = new Date().toLocaleString();
@@ -206,5 +208,58 @@ export const load = async ({ params, event, fetch  }) => {
         formatedData,
         currentTime,
         book,
+    }
+
+}
+
+
+////////////Trands Data from Firebase
+const retrieveTrendData = async (collectionName, currentValue, numberOfDaysToRetrieve) => {
+
+    // Data comaprision
+    let lastNDaysData = []
+    //fetch last Ndays of Data
+    const lastNDaysDataSet = await getLastNDaysDataFromFirestore(collectionName, numberOfDaysToRetrieve);
+    console.log(`Last ${numberOfDaysToRetrieve} Days Data:`, lastNDaysDataSet);
+
+
+    //// NdaysData and extract value
+    const dataRange = lastNDaysDataSet.forEach((day) => {
+        lastNDaysData.push(day.value)
+    });
+
+
+    ///calc average
+    const averageValueLastNDays = await calculateAveragePrice(lastNDaysData, numberOfDaysToRetrieve);
+    console.log(`Average Value of Last ${numberOfDaysToRetrieve} Days: ${averageValueLastNDays.toFixed(4)}`);
+    
+    const result = await analyzePriceTrend(currentValue, averageValueLastNDays);
+    console.log(`Trend: ${result.trend}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
+    
+
+    const data = {
+        current: currentValue,
+        trend: result.trend,
+        differance: await result.percentageDifference.toFixed(2)
+    }
+
+    return data
+}
+
+export const load = async ({ params, event, fetch  }) => {    
+
+    const pageData = await main(fetch);
+    // const pageData = {}
+
+    const currentPrice = await pageData.usdPrice
+    const daysToCompare = 3
+
+    const trendDataPrice = await retrieveTrendData('price', currentPrice, daysToCompare )
+    //console.log('export', trendDataPrice)
+    
+
+    return {
+        pageData,
+        trendDataPrice,
     }
 }
