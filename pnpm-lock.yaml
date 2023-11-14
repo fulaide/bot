@@ -5,19 +5,16 @@ specifiers:
   '@sveltejs/adapter-auto': ^2.0.0
   '@sveltejs/kit': ^1.20.4
   autoprefixer: ^10.4.16
-  ccxt: ^4.1.40
   firebase: ^10.6.0
   marked: ^7.0.3
   marked-mangle: ^1.1.2
   postcss: ^8.4.31
   svelte: ^4.0.5
-  sveltefirets: ^0.0.36
   tailwindcss: ^3.3.5
   vite: ^4.4.2
 
 dependencies:
   '@studio-freight/lenis': 1.0.27
-  ccxt: 4.1.40
   marked: 7.0.5
   marked-mangle: 1.1.4_marked@7.0.5
 
@@ -28,7 +25,6 @@ devDependencies:
   firebase: 10.6.0
   postcss: 8.4.31
   svelte: 4.2.2
-  sveltefirets: 0.0.36_4frqls62wvk6sznq3mltzuqcd4
   tailwindcss: 3.3.5
   vite: 4.5.0
 
@@ -1017,17 +1013,6 @@ packages:
     resolution: {integrity: sha512-NTt0DNoKe958Q0BE0j0c1V9jbUzhBxHIEJy7asmGrpE0yG63KTV7PLHPnK2E1O9RsQrQ081I3NLuXGS6zht3cw==}
     dev: true
 
-  /ccxt/4.1.40:
-    resolution: {integrity: sha512-oIqQBuXrkU8956ZXA2pn9Cv9c5QA3N/qvpbjGezwCcp0L2ntcrcizMxoLm6Xq9v1pUtsNtLx1hInxpn17eqsqQ==}
-    engines: {node: '>=15.0.0'}
-    requiresBuild: true
-    dependencies:
-      ws: 8.14.2
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
   /chokidar/3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
     engines: {node: '>= 8.10.0'}
@@ -1798,16 +1783,6 @@ packages:
       periscopic: 3.1.0
     dev: true
 
-  /sveltefirets/0.0.36_4frqls62wvk6sznq3mltzuqcd4:
-    resolution: {integrity: sha512-PcO25/kkj+9kWynos7dypzWhcecbhAL595rM111e19TILyP87wBFqmJL7O0vDFXOn7uC4GS3g9s8Qi3zA/UfYQ==}
-    peerDependencies:
-      firebase: ^9.21.0
-      svelte: ^3.58.0
-    dependencies:
-      firebase: 10.6.0
-      svelte: 4.2.2
-    dev: true
-
   /tailwindcss/3.3.5:
     resolution: {integrity: sha512-5SEZU4J7pxZgSkv7FP1zY8i2TIAOooNZ1e/OGtxIEv6GltpoiXUqWvLy89+a10qYTB1N5Ifkuw9lqQkN9sscvA==}
     engines: {node: '>=14.0.0'}
@@ -1992,19 +1967,6 @@ packages:
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
-
-  /ws/8.14.2:
-    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
 
   /y18n/5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
