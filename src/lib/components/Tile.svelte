@@ -19,7 +19,7 @@ export let featured = false
 <div class="
     group h-full 
     grid col-span-1 grid-rows-[max-content,_max-content,_max-content,_1fr]   
-    px-3 md:px-6  pt-3 pb-5 md:pt-6 md:pb-8
+    px-3 md:px-6  pt-3 pb-3 md:pt-6 md:pb-8
     bg-gradient-to-t from-transparent to-transparent backdrop-blur-md 
     border border-white/40 z-10 " 
     class:col-span-2={featured} >
@@ -27,8 +27,8 @@ export let featured = false
     <span class="text-label  text-[--brand] group-hover:hidden  group-hover:text-[--brand] group-hover:font-semibold">
         {content.label}
     </span>
+
     <span class="text-amount  font-semibold text-white  group-hover:hidden">
-        
      {content.amount}
         <span class="text-unit  text-white/10  group-hover:text-white/70 group-hover:font-semibold ml-1">
             {content.unit}

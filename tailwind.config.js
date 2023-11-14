@@ -24,7 +24,7 @@ export default {
           letterSpacing: '0.04vw',
           fontWeight: '400',
         }],
-        'amount': [clampBuilder(smallestViewPort, largestViewPort, 1.2, 2.4), {
+        'amount': [clampBuilder(smallestViewPort, largestViewPort, 1.15, 2.4), {
           lineHeight: clampBuilder(smallestViewPort, largestViewPort, 1.75, 2.8),
           letterSpacing: '0.07vw',
           fontWeight: '600',

@@ -16,7 +16,7 @@
         {labels.main}
     </span>
 
-    <li class="grid grid-cols-[1fr,_2fr,_2fr] gap-x-5 mt-1"> 
+    <li class="grid grid-cols-[1fr,_2fr,_2fr] gap-x-5 mt-0.5 md:mt-1"> 
         <span class="text-lg font-semibold text-white/40">
             {labels.depth}
         </span>
@@ -31,7 +31,7 @@
 
     {#if book }    
         {#each book as item, index }
-            <li class="grid grid-cols-[1fr,_2fr,_2fr] gap-x-5 items-center border-b-2 border-b-white/10 last:border-0 py-5">
+            <li class="grid grid-cols-[1fr,_2fr,_2fr] gap-x-5 items-center border-b-2 border-b-white/10 last:border-0 py-2 md:py-5">
 
                 <div class="depth grid grid-flow-col auto-cols-max items-center gap-2 ">
                     <span class="text-md md:text-lg text-white/40">-/+</span>
