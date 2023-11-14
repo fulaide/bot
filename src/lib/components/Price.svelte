@@ -105,7 +105,8 @@
 <section class="grid place-content-center min-h-[100dvh] bg-[--base] relative px-6 py-3 bg-right-top">
 
     <Header />
-   
+    
+    
     <div class="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4  gap-3 md:gap-6">
         
         <Tile content={price} featured={false} />
@@ -121,6 +122,12 @@
         
     
     </div>
+
+    <footer class="sticky bottom-0 left-0 pt-5">
+        <span class="text-eyebrow  text-white/30  ">
+            Data at: {data.currentTime} <span class="text-sm">- No guarantee for accuracy - this is not trading advice. Do your own research!</span>
+        </span>
+    </footer>
 </section>
 
 <style>
