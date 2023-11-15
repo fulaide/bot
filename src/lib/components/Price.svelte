@@ -50,13 +50,13 @@
 
         price = {
             label: "Price",
-            amount: `${await formatCurrency(dat.usdPrice, "")}`,
+            amount: `${await formatCurrency(dat.price, "")}`,
             unit: "$",
             source: "Bitfinex",
         }
         volume = {
             label: "24h Volume",
-            amount: `${await formatCurrency(dat.totalVolume, "")}`,
+            amount: `${await formatCurrency(dat.volume, "")}`,
             unit: "$",
             source: "Bitfinex",
         }
@@ -68,7 +68,7 @@
         }
         onchain = {
             label: "Onchain",
-            amount: `${await formatCurrency(await formatShimmerAmount(dat.onChainAmount), '')}`,
+            amount: `${await formatCurrency(await formatShimmerAmount(dat.onchain), '')}`,
             unit: "SMR",
             source: "Shimmer API",
         }
@@ -80,13 +80,13 @@
         }
         tx = {
             label: "24h Defi TX",
-            amount: `${dat.defiTx24hr.toLocaleString()}`,
+            amount: `${dat.tx.toLocaleString()}`,
             unit: "TX",
             source: "GeckoTerminal",
         }
         defiVol = {
             label: "24h Defi Vol",
-            amount: `${await formatCurrency(dat.defiTotalVolume, '')}`,
+            amount: `${await formatCurrency(dat.defiVol, '')}`,
             unit: "$",
             source: "GeckoTerminal",
         }
@@ -138,8 +138,8 @@
     </div>
 
     <footer class="sticky bottom-0 left-0 pt-5">
-        <span class="text-eyebrow  text-white/30  ">
-            Data at: {data.pageData.currentTime} <span class="text-sm">- No guarantee for accuracy - this is not trading advice. Do your own research!</span>
+        <span class="text-sm  text-white/50  ">
+            Data from: {data.pageData.currentTime.date} at {data.pageData.currentTime.atTime} <span class="text-xs">- No guarantee for accuracy - this is not trading advice. Do your own research!</span>
         </span>
     </footer>
 </section>

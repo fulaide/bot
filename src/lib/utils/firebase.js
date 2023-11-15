@@ -1,24 +1,16 @@
 // Assuming you have Firebase initialized and a Firestore instance available
 // For example, you may have already called: const db = firebase.firestore();
 import { db } from './../firebase/db.js'
-import { collection, orderBy, getDocs, onSnapshot,  query , limit } from "firebase/firestore"
-import { getDoc, doc, setDoc,  } from "firebase/firestore";
+import { collection, orderBy, getDocs, onSnapshot,  query , limit, serverTimestamp , addDoc } from "firebase/firestore"
 
 
 
 export async function getLastNDaysDataFromFirestore(collectionName, numberOfDays) {
     try {
-       // const collectionRef = db.collection(collectionName);
-
-        // Query the collection and order by timestamp (or any other relevant field)
-       // const querySnapshot = await collectionRef.orderBy('timestamp', 'desc').limit(numberOfDays).get();
-       // const querySnapshot = await getDocs(collectionRef.orderBy('createdAt', 'desc').limit(numberOfDays));
-
         const collectionRef = collection(db, collectionName)
         const collectionQuery = query(collectionRef, orderBy("createdAt", 'desc'), limit(numberOfDays));
         const querySnapshot = await getDocs(collectionQuery);
 
-        // const querySnapshot = await getDocs(collection(db, collectionName));
         // Extract data from the documents
         const lastNDaysData = querySnapshot.docs.map(doc => doc.data());
 
@@ -37,33 +29,56 @@ export async function getLastNDaysDataFromFirestore(collectionName, numberOfDays
 // console.log(`Last ${numberOfDaysToRetrieve} Days Data:`, lastNDaysData);
 
 
-
 // Assuming you have Firebase initialized and a Firestore instance available
 // For example, you may have already called: const db = firebase.firestore();
 
 export async function addDocumentToFirestore(collectionName, value) {
     try {
-        const collectionRef = db.collection(collectionName);
+        const collectionRefSave = collection(db, collectionName)
 
         // Generate a unique ID for the new document
-        const newDocumentRef = collectionRef.doc();
+        //const newDocumentRef = collectionRef.doc();
 
         // Get the current timestamp
-        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        const timestamp = serverTimestamp();
 
         // Create the data object for the new document
-        const data = {
-            id: newDocumentRef.id,
-            timestamp,
-            value
-        };
+        // const data = {
+        //     id: newDocumentRef.id,
+        //     createdAt: timestamp,
+        //     value: value
+        // };
 
+        // const docData = {
+        //     stringExample: "Hello world!",
+        //     booleanExample: true,
+        //     numberExample: 3.14159265,
+        //     dateExample: Timestamp.fromDate(new Date("December 10, 1815")),
+        //     arrayExample: [5, true, "hello"],
+        //     nullExample: null,
+        //     objectExample: {
+        //         a: 5,
+        //         b: {
+        //             nested: "foo"
+        //         }
+        //     }
+        // };
+
+        // Add a new document with a generated id.
+        const docRef = await addDoc(collectionRefSave, {
+            createdAt: timestamp,
+            value: value
+        });
+
+        console.log("Document written with ID: ", docRef.id);
+        
+        
         // Add the new document to the collection
-        await newDocumentRef.set(data);
+        //await newDocumentRef.set(data);
 
-        console.log('Document added successfully:', data);
+        //console.log('Document added successfully:', data);
 
-        return data;
+        return docRef;
     } catch (error) {
         console.error('Error adding document to Firestore:', error);
         throw error;

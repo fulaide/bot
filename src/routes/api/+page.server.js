@@ -25,19 +25,6 @@ import { calculateAveragePrice, analyzePriceTrend } from './../lib/utils/trend.j
 
 
 
-
-const collections = [
-    "book",
-    "defiVol",
-    "onchain",
-    "price",
-    "rank",
-    "tvl",
-    "tx",
-    "volume"
-]
-
-
 /////main API calls to fetch data
 async function main(fetch) {
 
@@ -318,102 +305,30 @@ async function saveRetrievedDataInFirestore(data) {
 
 }
 
-const formatTimeStampToDate = async (time) => {
-    // ////////////format timeStamp to normal js date
-    const fireBaseTime = new Date(
-        time.seconds * 1000 + time.nanoseconds / 1000000,
-    );
-    const date = fireBaseTime.toDateString();
-    const atTime = fireBaseTime.toLocaleTimeString();
-    console.log(`on ${date} at ${atTime}`)
-
-    return {
-        date,
-        atTime
-    }
-}
-
-const loadTodaysDataFromFirebase  = async ()  => {
-
-    let resultObject = {}
-    let timeStamp = {}
-    const numberOfDays = 1
-    // Loop over the array
-    for (const element of collections) {
-        // Call the function with the current array element as a parameter
-        const result = await getLastNDaysDataFromFirestore(element, numberOfDays);
-
-        // Save the result in the object with the array element as the key
-        /// get the first item in the array, becuase only one day 
-        // now object has createdAt & value as keys
-        resultObject[element] = result[0].value;
-        ///check for the price collection
-        if(element === "price") {
-            ////fecth createdAt Firebase timeStamp
-            timeStamp = result[0].createdAt
-        }
-    }
-    // //////loop through resultObject to extract
-    // for (const element of collections) {
-
-    //     const value = resultObject[element].value 
-
-    //     formattedObject[element] = value
-    // }
-
-    const currentTime = await formatTimeStampToDate(timeStamp)
-
-    resultObject = {...resultObject, currentTime}
-
-    //console.log('retrieved', resultObject)
-    //console.log('time', timeStamp)
-    return resultObject
-}
-
 export const load = async ({ params, event, fetch  }) => {    
 
-    ////fire api call to get market data
-    //const pageData = await main(fetch);
-     ///const pageData = {}
-     //const trendDataPrice = {}
+    const pageData = await main(fetch);
+    // const pageData = {}
 
-     const pageData = await loadTodaysDataFromFirebase()
-     console.log(pageData)
-     const currentPrice = await pageData.price
 
-    // const currentPrice = await pageData.usdPrice
-    // const currentVolume = await pageData.totalVolume
+   
+
+
+    const currentPrice = await pageData.usdPrice
+    const currentVolume = await pageData.totalVolume
     const daysToCompare = 3
 
 
     ///calc price trend
     const trendDataPrice = await retrieveTrendData('price', currentPrice, daysToCompare )
-    ////////console.log('export', trendDataPrice)
+    //console.log('export', trendDataPrice)
+    
 
+    /////taking retrieved data and saving it to indivdual firebase collections
+    //const savedData = await saveRetrievedDataInFirestore(pageData)
+    //console.log('saved', savedData)
 
-
-
-
-
-    // ////////get latest price from firebase not API
-    // const latestPrice = await getLastNDaysDataFromFirestore('price', 1);
-    // //console.log(`***********************Today ${1} Days Data:`, latestPrice);
-    // // const time = latestPrice.createdAt.toDate().toLocaleTimeString('en-US')
-
-    // /////taking retrieved data and saving it to indivdual firebase collections
-    // //const savedData = await saveRetrievedDataInFirestore(pageData)
-    // //console.log('saved', savedData)
-
-
-    // ////////////format timeStamp to normal js date
-    // let time = await latestPrice[0].createdAt
-    // const fireBaseTime = new Date(
-    //     time.seconds * 1000 + time.nanoseconds / 1000000,
-    // );
-    // const date = fireBaseTime.toDateString();
-    // const atTime = fireBaseTime.toLocaleTimeString();
-    // console.log(`latest Price: ${latestPrice[0].value} on ${date} at ${atTime}`)
-
+   
 
     return {
         pageData,
