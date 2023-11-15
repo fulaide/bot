@@ -370,6 +370,10 @@ const loadTodaysDataFromFirebase  = async ()  => {
     return resultObject
 }
 
+
+
+
+
 export const load = async ({ params, event, fetch  }) => {    
 
     ////fire api call to get market data
@@ -377,9 +381,42 @@ export const load = async ({ params, event, fetch  }) => {
      ///const pageData = {}
      //const trendDataPrice = {}
 
-     const pageData = await loadTodaysDataFromFirebase()
-     console.log(pageData)
-     const currentPrice = await pageData.price
+     const currentDay = new Date().getDate()
+     const latestPrice = await getLastNDaysDataFromFirestore('price', 1);
+     const dataTimeStamp = await formatTimeStampToDate(latestPrice[0].createdAt)
+
+     let time = await latestPrice[0].createdAt
+     const fireBaseTime = new Date(
+        time.seconds * 1000 + time.nanoseconds / 1000000,
+    );
+    const date = fireBaseTime
+    // console.log('date', date.getDate() )
+
+
+    //  console.log('current', currentDay )
+    //  console.log('saved', dataTimeStamp.date )
+    if (currentDay === date.getDate()) {
+        ///same day
+        console.log('same day')
+    } else {
+        console.log('not the same day')
+        ////////////////////////
+        ////make api calls to fetch market data 
+        ///// take the respond and save it Firebase db
+    
+        const marketData = await main(fetch);
+        const savedData = await saveRetrievedDataInFirestore(marketData)
+        console.log('saved', savedData)
+    }
+
+    
+    
+
+    ////////////////////////
+    /////Getting Today's data from Firebase db
+    const pageData = await loadTodaysDataFromFirebase()
+    console.log(pageData)
+    const currentPrice = await pageData.price
 
     // const currentPrice = await pageData.usdPrice
     // const currentVolume = await pageData.totalVolume
@@ -413,6 +450,10 @@ export const load = async ({ params, event, fetch  }) => {
     // const date = fireBaseTime.toDateString();
     // const atTime = fireBaseTime.toLocaleTimeString();
     // console.log(`latest Price: ${latestPrice[0].value} on ${date} at ${atTime}`)
+
+
+
+    
 
 
     return {
