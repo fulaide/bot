@@ -2,12 +2,12 @@ import { redirect } from '@sveltejs/kit'
 
 
 
-import { getCoingeckoExchangeData } from "./../lib/helper/coingecko.js"
-import { calculateTotalBitfinexDepth } from "./../lib/helper/bifinex.js"
-import { getDefillamaData } from "./../lib/helper/defilama.js"
-import { getGeckoterminalData } from "./../lib/helper/geckoTerminal.js"
-import { getShimmerData } from "./../lib/helper/shimmer.js"
-import { formatCurrency , formatShimmerAmount} from "./../lib/helper/formatting.js"
+import { getCoingeckoExchangeData } from "./../../lib/helper/coingecko.js"
+import { calculateTotalBitfinexDepth } from "./../../lib/helper/bifinex.js"
+import { getDefillamaData } from "./../../lib/helper/defilama.js"
+import { getGeckoterminalData } from "./../../lib/helper/geckoTerminal.js"
+import { getShimmerData } from "./../../lib/helper/shimmer.js"
+import { formatCurrency , formatShimmerAmount} from "./../../lib/helper/formatting.js"
 
 // // /////static Config and Symbols to track
 // const bitfinexTickers = ["tSMRUSD", "tSMRUST"];
@@ -20,8 +20,8 @@ import { formatCurrency , formatShimmerAmount} from "./../lib/helper/formatting.
 
 
 ///firebase Trends
-import { getLastNDaysDataFromFirestore, addDocumentToFirestore } from './../lib/utils/firebase.js'
-import { calculateAveragePrice, analyzePriceTrend } from './../lib/utils/trend.js'
+import { getLastNDaysDataFromFirestore, addDocumentToFirestore } from './../../lib/utils/firebase.js'
+import { calculateAveragePrice, analyzePriceTrend } from './../../lib/utils/trend.js'
 
 
 
