@@ -23,7 +23,8 @@
             console.log(
                 "browser", data
             )
-            formatTrendData(data.trendDataPrice)
+            //formatTrendData(data.trendDataPrice)
+            formatTrendData(data.trendData)
         }
     }
 
@@ -36,13 +37,43 @@
     let tx = {}
     let defiVol = {}
 
-    let priceTrend = {}
+    let priceTrend, volumeTrend, rankTrend, onchainTrend, tvlTrend, txTrend, defiVolTrend = {}
 
     async function formatTrendData(dat) {
         priceTrend = {
-            amount: dat.differance,
+            amount: dat.price.differance,
             unit: "%",
-            arrow: dat.trend,
+            arrow: dat.price.trend,
+        }
+        volumeTrend = {
+            amount: dat.volume.differance,
+            unit: "%",
+            arrow: dat.volume.trend,
+        }
+        rankTrend = {
+            amount: dat.rank.differance,
+            unit: "%",
+            arrow: dat.rank.trend,
+        }
+        onchainTrend = {
+            amount: dat.onchain.differance,
+            unit: "%",
+            arrow: dat.onchain.trend,
+        }
+        tvlTrend = {
+            amount: dat.tvl.differance,
+            unit: "%",
+            arrow: dat.tvl.trend,
+        }
+        txTrend = {
+            amount: dat.tx.differance,
+            unit: "%",
+            arrow: dat.tx.trend,
+        }
+        defiVolTrend = {
+            amount: dat.defiVol.differance,
+            unit: "%",
+            arrow: dat.defiVol.trend,
         }
     }
 
@@ -124,17 +155,16 @@
     <div class="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4  gap-3 md:gap-6">
         
         <Tile content={price} featured={false} trend={priceTrend} />
-        <Tile content={volume} />
-        <Tile content={tvl} />
-        <Tile content={rank} />
+        <Tile content={volume}  trend={volumeTrend}/>
+        <Tile content={tvl} trend={tvlTrend}/> 
+        <Tile content={rank} trend={rankTrend}/>
         
-        <Tile content={tx}  />
-        <Tile content={defiVol}  />
+        <Tile content={tx} trend={txTrend} />
+        <Tile content={defiVol} trend={defiVolTrend} />
         
-        <Tile content={onchain} featured />
+        <Tile content={onchain} featured trend={onchainTrend} />
         <Book book={data.pageData.book}  />
         
-    
     </div>
 
     <footer class="sticky bottom-0 left-0 pt-5">

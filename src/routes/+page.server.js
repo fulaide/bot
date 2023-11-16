@@ -1,23 +1,11 @@
 import { redirect } from '@sveltejs/kit'
 
-
-
 import { getCoingeckoExchangeData } from "./../lib/helper/coingecko.js"
 import { calculateTotalBitfinexDepth } from "./../lib/helper/bifinex.js"
 import { getDefillamaData } from "./../lib/helper/defilama.js"
 import { getGeckoterminalData } from "./../lib/helper/geckoTerminal.js"
 import { getShimmerData } from "./../lib/helper/shimmer.js"
 import { formatCurrency , formatShimmerAmount} from "./../lib/helper/formatting.js"
-
-// // /////static Config and Symbols to track
-// const bitfinexTickers = ["tSMRUSD", "tSMRUST"];
-// const coingeckoCoinId = "shimmer";
-// const coingeckoExchangeId = "bitfinex";
-// const geckoterminalTicker = "shimmerevm";
-// const shimmerOnchainDepositAlias = "0xccc7018e4fa63e5014332f45ddc8a5450da89572676d12d4d5e51c98d64155b3";
-// const percentageLevels = [-2, 2, -5, 5, -10, 10, -20, 20];
-
-
 
 ///firebase Trends
 import { getLastNDaysDataFromFirestore, addDocumentToFirestore } from './../lib/utils/firebase.js'
@@ -325,11 +313,13 @@ const formatTimeStampToDate = async (time) => {
     );
     const date = fireBaseTime.toDateString();
     const atTime = fireBaseTime.toLocaleTimeString();
-    console.log(`on ${date} at ${atTime}`)
+    const day = fireBaseTime.getDate();
+    console.log(`on ${date} at ${atTime} - day ${day}`)
 
     return {
         date,
-        atTime
+        atTime,
+        day
     }
 }
 
@@ -374,6 +364,41 @@ const loadTodaysDataFromFirebase  = async ()  => {
 
 
 
+
+const calcTrendforAllDataPoints  = async (data, daysToCompare)  => {
+
+    let resultObject = {}
+    let index = 0
+    // Loop over the array
+    for (const element of collections) {
+
+        if(element === "book") {
+            /// do nothing
+        } else {
+
+            //console.log('KEY',  Object.values(data)[index])
+            const currentVaue = Object.values(data)[index]
+            
+            const result = await retrieveTrendData(element, currentVaue, daysToCompare);
+            // Save the result in the object with the array element as the key
+            /// get the first item in the array, becuase only one day 
+            // now object has createdAt & value as keys
+            resultObject[element] =  {
+                trend: result.trend,
+                differance: result.differance
+            }
+            
+            console.log('inside loop', result)
+        }
+
+        index = index+1
+    }
+
+    //console.log('retrieved', resultObject)
+    //console.log('time', timeStamp)
+    return resultObject
+}
+
 export const load = async ({ params, event, fetch  }) => {    
 
     ////fire api call to get market data
@@ -385,17 +410,17 @@ export const load = async ({ params, event, fetch  }) => {
      const latestPrice = await getLastNDaysDataFromFirestore('price', 1);
      const dataTimeStamp = await formatTimeStampToDate(latestPrice[0].createdAt)
 
-     let time = await latestPrice[0].createdAt
-     const fireBaseTime = new Date(
-        time.seconds * 1000 + time.nanoseconds / 1000000,
-    );
-    const date = fireBaseTime
-    // console.log('date', date.getDate() )
+    //  let time = await latestPrice[0].createdAt
+    //  const fireBaseTime = new Date(
+    //     time.seconds * 1000 + time.nanoseconds / 1000000,
+    // );
+    // const date = fireBaseTime
+    // // console.log('date', date.getDate() )
 
 
     //  console.log('current', currentDay )
     //  console.log('saved', dataTimeStamp.date )
-    if (currentDay === date.getDate()) {
+    if (currentDay === dataTimeStamp.day) {
         ///same day
         console.log('same day')
     } else {
@@ -404,9 +429,9 @@ export const load = async ({ params, event, fetch  }) => {
         ////make api calls to fetch market data 
         ///// take the respond and save it Firebase db
     
-        const marketData = await main(fetch);
-        const savedData = await saveRetrievedDataInFirestore(marketData)
-        console.log('saved', savedData)
+        // const marketData = await main(fetch);
+        // const savedData = await saveRetrievedDataInFirestore(marketData)
+        // console.log('saved', savedData)
     }
 
     
@@ -418,10 +443,13 @@ export const load = async ({ params, event, fetch  }) => {
     console.log(pageData)
     const currentPrice = await pageData.price
 
-    // const currentPrice = await pageData.usdPrice
-    // const currentVolume = await pageData.totalVolume
-    const daysToCompare = 3
+    const allData = await pageData
 
+    /////get trend data for all retrieved data points
+    const daysToCompare = 2
+    const trendData = await calcTrendforAllDataPoints(allData, daysToCompare)
+
+    console.log('all TRENDS', trendData)
 
     ///calc price trend
     const trendDataPrice = await retrieveTrendData('price', currentPrice, daysToCompare )
@@ -459,5 +487,6 @@ export const load = async ({ params, event, fetch  }) => {
     return {
         pageData,
         trendDataPrice,
+        trendData,
     }
 }
