@@ -429,9 +429,9 @@ export const load = async ({ params, event, fetch  }) => {
         ////make api calls to fetch market data 
         ///// take the respond and save it Firebase db
     
-        // const marketData = await main(fetch);
-        // const savedData = await saveRetrievedDataInFirestore(marketData)
-        // console.log('saved', savedData)
+        const marketData = await main(fetch);
+        const savedData = await saveRetrievedDataInFirestore(marketData)
+        //console.log('saved', savedData)
     }
 
     
