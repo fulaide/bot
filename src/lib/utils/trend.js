@@ -28,7 +28,8 @@ export async function calculateAveragePrice(lastNDaysData, numberOfDays) {
         throw new Error('Please provide exactly N days of data.');
     }
 
-    const sum = lastNDaysData.reduce((acc, price) => acc + price, 0);
+    const sum = lastNDaysData.reduce((acc, price) => acc + Number(price), 0);
+    console.log('summ', sum)
     const averagePrice = sum / lastNDaysData.length;
 
     return averagePrice;

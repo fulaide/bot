@@ -25,6 +25,8 @@
             )
             //formatTrendData(data.trendDataPrice)
             formatTrendData(data.trendData)
+
+
         }
     }
 

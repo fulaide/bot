@@ -431,7 +431,7 @@ export const load = async ({ params, event, fetch  }) => {
     
         const marketData = await main(fetch);
         const savedData = await saveRetrievedDataInFirestore(marketData)
-        //console.log('saved', savedData)
+        console.log('saved', savedData)
     }
 
     
