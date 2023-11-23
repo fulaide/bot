@@ -40,3 +40,36 @@ export async function calculateAveragePrice(lastNDaysData, numberOfDays) {
 
 // const averagePriceLast7Days = calculateAveragePrice(lastSevenDaysPrices);
 // console.log(`Average Price of Last 7 Days: ${averagePriceLast7Days.toFixed(2)}`);
+
+
+
+///-----------
+
+export function analyzeRankTrend(currentRank, averageRankLastNDays) {
+    // Calculate the difference in rank
+    const rankDifference = currentRank - averageRankLastNDays;
+
+    // Calculate the percentage difference based on the average rank
+    const percentageDifference = (rankDifference / averageRankLastNDays) * 100;
+
+    // Determine the trend based on the sign of the rank difference
+    const trend = rankDifference > 0 ? 'up' : rankDifference < 0 ? 'down' : 'stable';
+
+    // Calculate the absolute difference in rank position
+    const absoluteDifference = Math.abs(rankDifference);
+
+    // Return the trend, rank difference, absolute difference, and percentage difference
+    return {
+        trend,
+        rankDifference,
+        absoluteDifference,
+        percentageDifference
+    };
+}
+
+// // Example usage:
+// const currentRank = 75; // Replace with your actual current rank
+// const averageRankLastNDays = 70; // Replace with your actual average rank
+
+// const result = analyzeRankTrend(currentRank, averageRankLastNDays);
+// console.log(`Trend: ${result.trend}, Rank Difference: ${result.rankDifference}, Absolute Difference: ${result.absoluteDifference}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);

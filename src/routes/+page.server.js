@@ -9,7 +9,7 @@ import { formatCurrency , formatShimmerAmount} from "./../lib/helper/formatting.
 
 ///firebase Trends
 import { getLastNDaysDataFromFirestore, addDocumentToFirestore } from './../lib/utils/firebase.js'
-import { calculateAveragePrice, analyzePriceTrend } from './../lib/utils/trend.js'
+import { calculateAveragePrice, analyzePriceTrend, analyzeRankTrend } from './../lib/utils/trend.js'
 
 
 
@@ -229,14 +229,13 @@ const retrieveTrendData = async (collectionName, currentValue, numberOfDaysToRet
         lastNDaysData.push(day.value)
     });
 
-
+    //////////////////// 
     ///calc average
     const averageValueLastNDays = await calculateAveragePrice(lastNDaysData, numberOfDaysToRetrieve);
     console.log(`Average Value of Last ${numberOfDaysToRetrieve} Days: ${averageValueLastNDays.toFixed(4)}`);
     
     const result = await analyzePriceTrend(currentValue, averageValueLastNDays);
     console.log(`Trend: ${result.trend}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
-    
 
     const data = {
         current: currentValue,
@@ -246,6 +245,51 @@ const retrieveTrendData = async (collectionName, currentValue, numberOfDaysToRet
 
     return data
 }
+
+////////////Trands Rank ONLY from Firebase
+const retrieveRankTrendData = async (currentValue, numberOfDaysToRetrieve) => {
+
+    const collectionName = "rank"
+    // Data comaprision
+    let lastNDaysData = []
+    //fetch last Ndays of Data
+    const lastNDaysDataSet = await getLastNDaysDataFromFirestore(collectionName, numberOfDaysToRetrieve);
+    console.log(`Last ${numberOfDaysToRetrieve} Days Data:`, lastNDaysDataSet);
+
+
+    //// NdaysData and extract value
+    const dataRange = lastNDaysDataSet.forEach((day) => {
+        lastNDaysData.push(day.value)
+    });
+    //////////////////////// rank
+
+    const averageRankLastNDays = await calculateAveragePrice(lastNDaysData, numberOfDaysToRetrieve);
+    console.log(`Average Rank of Last ${numberOfDaysToRetrieve} Days: ${averageRankLastNDays.toFixed(4)}`);
+
+    // const currentRank = 75; // Replace with your actual current rank
+    // const averageRankLastNDays = 70; // Replace with your actual average rank
+
+    const result = analyzeRankTrend(currentValue, averageRankLastNDays);
+    console.log(`Trend: ${result.trend}, Rank Difference: ${result.rankDifference}, Absolute Difference: ${result.absoluteDifference}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
+
+
+
+    const data = {
+        current: currentValue,
+        trend: result.trend,
+        differance: await result.percentageDifference.toFixed(2),
+        absolute: result.absoluteDifference
+    }
+
+    return data
+}
+
+
+
+
+
+
+
 
 
 async function saveRetrievedDataInFirestore(data) {
@@ -372,7 +416,23 @@ const calcTrendforAllDataPoints  = async (data, daysToCompare)  => {
     // Loop over the array
     for (const element of collections) {
 
-        if(element === "book") {
+        if (element === "rank") {
+            // Example usage:
+            // const currentRank = 75; // Replace with your actual current rank
+            // const averageRankLastNDays = 70; // Replace with your actual average rank
+
+            // const result = analyzeRankTrend(currentRank, averageRankLastNDays);
+            // console.log(`Trend: ${result.trend}, Rank Difference: ${result.rankDifference}, Absolute Difference: ${result.absoluteDifference}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
+            const currentVaue = Object.values(data)[index]
+
+            const result = await retrieveRankTrendData(currentVaue, daysToCompare)
+
+            resultObject[element] =  {
+                trend: result.trend,
+                differance: result.absolute
+            }
+
+        } else if(element === "book") {
             /// do nothing
         } else {
 
