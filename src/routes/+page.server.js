@@ -12,6 +12,10 @@ import { getLastNDaysDataFromFirestore, addDocumentToFirestore } from './../lib/
 import { calculateAveragePrice, analyzePriceTrend, analyzeRankTrend } from './../lib/utils/trend.js'
 
 
+//////store
+import {get, writable} from 'svelte/store'
+import trend from './../lib/stores/trendStore.js';
+
 
 
 const collections = [
@@ -505,11 +509,24 @@ export const load = async ({ params, event, fetch  }) => {
 
     const allData = await pageData
 
+
+    ///////check Trend daysToCompare
+    const daysToCompare = 2 // get(trend)
+
+    let days = 1
+
+    trend.subscribe((curr) => {
+        // uid = curr?.currentUser?.uid;
+        days = curr
+        console.log("how many days", curr)
+    });
+    
+
     /////get trend data for all retrieved data points
-    const daysToCompare = 2
+   // const daysToCompare = 2
     const trendData = await calcTrendforAllDataPoints(allData, daysToCompare)
 
-    console.log('all TRENDS', trendData)
+    //console.log('all TRENDS', trendData)
 
     ///calc price trend
     const trendDataPrice = await retrieveTrendData('price', currentPrice, daysToCompare )

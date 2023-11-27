@@ -12,6 +12,40 @@
     import { formatCurrency , formatShimmerAmount} from "$lib/helper/formatting.js"
     import Header from '$lib/components/Header.svelte';
     import Book from './Book.svelte';
+    import { invalidate , invalidateAll } from '$app/navigation';
+
+
+    //////store
+    import trend from '$lib/stores/trendStore.js';
+
+    //$: trendis = $trend === 1;
+    let currenTrend = "+24hr"
+ 	//$: currenTrend = trendis ? trendTabOptions[0] : currenTrend
+     $: currenTrend = $trend === 1 ? trendTabOptions[0] : currenTrend
+     $: currenTrend = $trend === 3 ? trendTabOptions[1] : currenTrend
+     $: currenTrend = $trend === 7 ? trendTabOptions[2] : currenTrend
+
+    const trendTabOptions= [ "+24hr", "3d", "7d"]
+
+    function updateTrend(option) {
+        switch (option) {
+            case "+24hr":
+                trend.set(1)
+                break;
+            case "3d":
+                trend.set(3)
+                break;
+            case "7d":
+                trend.set(7)
+                break;
+            default:
+                break;
+        }
+
+     //   invalidateAll(); 
+       // invalidate((url) => url.pathname === '/');
+        //console.log("trend is ", $trend)
+    }
 
     onMount(()=> {
         
@@ -25,8 +59,6 @@
             )
             //formatTrendData(data.trendDataPrice)
             formatTrendData(data.trendData)
-
-
         }
     }
 
@@ -152,6 +184,17 @@
 <section class="grid place-content-center min-h-[100dvh] bg-[--base] relative px-6 py-3 bg-right-top">
 
     <Header />
+
+    <div class="tab-bar grid w-full place-content-center mb-5">
+        <ul class="flex gap-2"> 
+            {#each trendTabOptions as option }
+                
+            <li class="bg-[--base] px-3 py-1  text-white/50 cursor-pointer hover:bg-[--strong]" on:click={()=> updateTrend(option) } class:active={currenTrend === option} >
+                <span class="text-sm ">{option}</span>
+            </li>
+            {/each}
+        </ul>
+    </div>
     
     
     <div class="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4  gap-3 md:gap-6">
@@ -179,5 +222,9 @@
 <style>
     section {
         background-image: url(./../assets/blur.svg);
+    }
+    .active {
+        background-color: var(--brand) !important;
+        color:  var(--base)  !important;
     }
 </style>
