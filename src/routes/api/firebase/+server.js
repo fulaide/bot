@@ -86,7 +86,7 @@ const retrieveTrendData = async (collectionName, currentValue, numberOfDaysToRet
     let lastNDaysData = []
     //fetch last Ndays of Data
     const lastNDaysDataSet = await getLastNDaysDataFromFirestore(collectionName, numberOfDaysToRetrieve);
-    console.log(`Last ${numberOfDaysToRetrieve} Days Data:`, lastNDaysDataSet);
+  //  console.log(`Last ${numberOfDaysToRetrieve} Days Data:`, lastNDaysDataSet);
 
 
     //// NdaysData and extract value
@@ -98,12 +98,12 @@ const retrieveTrendData = async (collectionName, currentValue, numberOfDaysToRet
     ///calc average
     //console.log('HHHHHHHHHHH', lastNDaysData, numberOfDaysToRetrieve);
     const averageValueLastNDays = await calculateAveragePrice(lastNDaysData, numberOfDaysToRetrieve);
-    console.log(`Average Value of Last ${numberOfDaysToRetrieve} Days: ${averageValueLastNDays.toFixed(4)}`);
+   // console.log(`Average Value of Last ${numberOfDaysToRetrieve} Days: ${averageValueLastNDays.toFixed(4)}`);
 
     
     
     const result = await analyzePriceTrend(currentValue, averageValueLastNDays);
-    console.log(`Trend: ${result.trend}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
+   // console.log(`Trend: ${result.trend}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
 
     const data = {
         current: currentValue,
@@ -124,7 +124,7 @@ const retrieveRankTrendData = async (currentValue, numberOfDaysToRetrieve) => {
     let lastNDaysData = []
     //fetch last Ndays of Data
     const lastNDaysDataSet = await getLastNDaysDataFromFirestore(collectionName, numberOfDaysToRetrieve);
-    console.log(`Last ${numberOfDaysToRetrieve} Days Data:`, lastNDaysDataSet);
+    //console.log(`Last ${numberOfDaysToRetrieve} Days Data:`, lastNDaysDataSet);
 
 
     //// NdaysData and extract value
@@ -134,13 +134,13 @@ const retrieveRankTrendData = async (currentValue, numberOfDaysToRetrieve) => {
     //////////////////////// rank
 
     const averageRankLastNDays = await calculateAveragePrice(lastNDaysData, numberOfDaysToRetrieve);
-    console.log(`Average Rank of Last ${numberOfDaysToRetrieve} Days: ${averageRankLastNDays.toFixed(4)}`);
+    //console.log(`Average Rank of Last ${numberOfDaysToRetrieve} Days: ${averageRankLastNDays.toFixed(4)}`);
 
     // const currentRank = 75; // Replace with your actual current rank
     // const averageRankLastNDays = 70; // Replace with your actual average rank
 
     const result = analyzeRankTrend(currentValue, averageRankLastNDays);
-    console.log(`Trend: ${result.trend}, Rank Difference: ${result.rankDifference}, Absolute Difference: ${result.absoluteDifference}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
+   // console.log(`Trend: ${result.trend}, Rank Difference: ${result.rankDifference}, Absolute Difference: ${result.absoluteDifference}, Percentage Difference: ${result.percentageDifference.toFixed(2)}%`);
 
 
 
@@ -199,7 +199,7 @@ const calcTrendforAllDataPoints  = async (data, daysToCompare)  => {
                 differance: result.differance
             }
             
-            console.log('inside loop', result)
+            //console.log('inside loop', result)
         }
 
         index = index+1

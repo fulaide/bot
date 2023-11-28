@@ -463,80 +463,143 @@ const calcTrendforAllDataPoints  = async (data, daysToCompare)  => {
     return resultObject
 }
 
-export const load = async ({ params, event, fetch  }) => {    
+export const load = async ({ url, params, event, fetch  }) => {    
 
-    ////fire api call to get market data
-    //const pageData = await main(fetch);
-     ///const pageData = {}
-     //const trendDataPrice = {}
+    let dynDays = url.searchParams.get('days')
+    let days = 2
 
-     const currentDay = new Date().getDate()
-     const latestPrice = await getLastNDaysDataFromFirestore('price', 1);
-     const dataTimeStamp = await formatTimeStampToDate(latestPrice[0].createdAt)
-
-    //  let time = await latestPrice[0].createdAt
-    //  const fireBaseTime = new Date(
-    //     time.seconds * 1000 + time.nanoseconds / 1000000,
-    // );
-    // const date = fireBaseTime
-    // // console.log('date', date.getDate() )
-
-
-    //  console.log('current', currentDay )
-    //  console.log('saved', dataTimeStamp.date )
-    if (currentDay === dataTimeStamp.day) {
-        ///same day
-        console.log('same day')
+    if(!dynDays) {
+        dynDays = 1
+        days = 2
+        //console.log(dynDays)
+        trend.set(1)
     } else {
-        console.log('not the same day')
-        ////////////////////////
-        ////make api calls to fetch market data 
-        ///// take the respond and save it Firebase db
-    
-        const marketData = await main(fetch);
-        const savedData = await saveRetrievedDataInFirestore(marketData)
-        console.log('saved', savedData)
+        if(dynDays == 1) {
+            days = 2
+        } else {
+            days = dynDays
+        }
+        //console.log(dynDays)
+        trend.set(dynDays)
     }
-
-    
     
 
 
-
-
-
-    
-
-    ////////////////////////
-    /////Getting Today's data from Firebase db
-    const pageData = await loadTodaysDataFromFirebase()
-    console.log(pageData)
-    const currentPrice = await pageData.price
-
-    const allData = await pageData
-
-
-    ///////check Trend daysToCompare
-    const daysToCompare = 2 // get(trend)
-
-    let days = 1
-
-    trend.subscribe((curr) => {
-        // uid = curr?.currentUser?.uid;
-        days = curr
-        console.log("how many days", curr)
+    const liveResponse = await fetch('/api/live', {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json'
+        }
     });
+
+    //////get the info if data is already loaded from market and saved to Firebase
+    //// if yes we can get trend data from Firebase
+   const isSameDay = await liveResponse.json();
+    
+    //console.log('DAYYYYYYYYYY', isSameDay)
+
+
+
+
+
+    /////fetch latest data from firebase and calc trend
+    
+    let apiUrl = `/api/firebase?direction=retreive&days=${days}`
+    
+    const dataResponse = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json'
+        }
+    });
+
+    const dataCombined = await dataResponse.json();
+    //console.log('DAAATTTTTTAAAA', dataCombined)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ////fire api call to get market data
+    // //const pageData = await main(fetch);
+    //  ///const pageData = {}
+    //  //const trendDataPrice = {}
+
+    //  const currentDay = new Date().getDate()
+    //  const latestPrice = await getLastNDaysDataFromFirestore('price', 1);
+    //  const dataTimeStamp = await formatTimeStampToDate(latestPrice[0].createdAt)
+
+    // //  let time = await latestPrice[0].createdAt
+    // //  const fireBaseTime = new Date(
+    // //     time.seconds * 1000 + time.nanoseconds / 1000000,
+    // // );
+    // // const date = fireBaseTime
+    // // // console.log('date', date.getDate() )
+
+
+    // //  console.log('current', currentDay )
+    // //  console.log('saved', dataTimeStamp.date )
+    // if (currentDay === dataTimeStamp.day) {
+    //     ///same day
+    //     console.log('same day')
+    // } else {
+    //     console.log('not the same day')
+    //     ////////////////////////
+    //     ////make api calls to fetch market data 
+    //     ///// take the respond and save it Firebase db
+    
+    //     const marketData = await main(fetch);
+    //     const savedData = await saveRetrievedDataInFirestore(marketData)
+    //     console.log('saved', savedData)
+    // }
+
+    
     
 
-    /////get trend data for all retrieved data points
-   // const daysToCompare = 2
-    const trendData = await calcTrendforAllDataPoints(allData, daysToCompare)
 
-    //console.log('all TRENDS', trendData)
 
-    ///calc price trend
-    const trendDataPrice = await retrieveTrendData('price', currentPrice, daysToCompare )
-    ////////console.log('export', trendDataPrice)
+
+
+
+
+//     ////////////////////////
+//     /////Getting Today's data from Firebase db
+//     const pageData = await loadTodaysDataFromFirebase()
+//     console.log(pageData)
+//     const currentPrice = await pageData.price
+
+//     const allData = await pageData
+
+
+//     ///////check Trend daysToCompare
+//     const daysToCompare = 2 // get(trend)
+
+//     let days = 1
+
+//     trend.subscribe((curr) => {
+//         // uid = curr?.currentUser?.uid;
+//         days = curr
+//         console.log("how many days", curr)
+//     });
+    
+
+//     /////get trend data for all retrieved data points
+//    // const daysToCompare = 2
+//     const trendData = await calcTrendforAllDataPoints(allData, daysToCompare)
+
+//     //console.log('all TRENDS', trendData)
+
+//     ///calc price trend
+//     const trendDataPrice = await retrieveTrendData('price', currentPrice, daysToCompare )
+//     ////////console.log('export', trendDataPrice)
 
 
 
@@ -564,8 +627,9 @@ export const load = async ({ params, event, fetch  }) => {
 
 
 
-    
-
+    const pageData = await dataCombined.pageData
+    const trendDataPrice = await dataCombined.trendDataPrice
+    const trendData = await dataCombined.trendData
 
     return {
         pageData,

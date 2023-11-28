@@ -3,6 +3,8 @@
    
     import { browser } from '$app/environment'; 
     import { onMount } from 'svelte';
+    import { page } from '$app/stores';
+    import { goto } from '$app/navigation';
 
     import Tile from '$lib/components/Tile.svelte'
     import Logo from '$lib/assets/shimmer.svg'
@@ -18,24 +20,34 @@
     //////store
     import trend from '$lib/stores/trendStore.js';
 
+    $: $page.url.searchParams.has('days') ? trend.set($page.url.searchParams.get('days')) : null
+    //const dynamicDays = $page.url.searchParams.get('days');
+
+   // console.log('DAYYyyyyyyyyyyyy',dynamicDays )
+
+   $: console.log($trend)
+
     //$: trendis = $trend === 1;
     let currenTrend = "+24hr"
  	//$: currenTrend = trendis ? trendTabOptions[0] : currenTrend
-     $: currenTrend = $trend === 1 ? trendTabOptions[0] : currenTrend
-     $: currenTrend = $trend === 3 ? trendTabOptions[1] : currenTrend
-     $: currenTrend = $trend === 7 ? trendTabOptions[2] : currenTrend
+     $: currenTrend = $trend == 1 ? trendTabOptions[0] : currenTrend
+     $: currenTrend = $trend == 3 ? trendTabOptions[1] : currenTrend
+     $: currenTrend = $trend == 7 ? trendTabOptions[2] : currenTrend
 
     const trendTabOptions= [ "+24hr", "3d", "7d"]
 
     function updateTrend(option) {
         switch (option) {
             case "+24hr":
+                goto('/?days=1');
                 trend.set(1)
                 break;
             case "3d":
+                goto('/?days=3');
                 trend.set(3)
                 break;
             case "7d":
+                goto('/?days=7');
                 trend.set(7)
                 break;
             default:
