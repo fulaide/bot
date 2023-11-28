@@ -54,7 +54,7 @@ export function analyzeRankTrend(currentRank, averageRankLastNDays) {
     const percentageDifference = (rankDifference / averageRankLastNDays) * 100;
 
     // Determine the trend based on the sign of the rank difference
-    const trend = rankDifference > 0 ? 'up' : rankDifference < 0 ? 'down' : 'stable';
+    const trend = rankDifference > 0 ? 'down' : rankDifference < 0 ? 'up' : 'stable';
 
     // Calculate the absolute difference in rank position
     const absoluteDifference = Math.abs(rankDifference);
