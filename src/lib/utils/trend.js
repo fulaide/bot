@@ -23,7 +23,8 @@ export async function analyzePriceTrend(currentPrice, averagePriceLast7Days) {
 
 
 export async function calculateAveragePrice(lastNDaysData, numberOfDays) {
-    if (lastNDaysData.length !== numberOfDays) {
+    //console.log('LENGTH',lastNDaysData.length, numberOfDays)
+    if (lastNDaysData.length != numberOfDays) {
         // Ensure there are exactly seven days of prices
         throw new Error('Please provide exactly N days of data.');
     }

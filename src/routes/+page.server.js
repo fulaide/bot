@@ -501,6 +501,12 @@ export const load = async ({ params, event, fetch  }) => {
     
     
 
+
+
+
+
+    
+
     ////////////////////////
     /////Getting Today's data from Firebase db
     const pageData = await loadTodaysDataFromFirebase()
