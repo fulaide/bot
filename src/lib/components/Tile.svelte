@@ -6,6 +6,10 @@ export let content = {
     source: "Bitfinex",
 }
 
+import up from '$lib/assets/up.svg'
+import down from '$lib/assets/down.svg'
+import stable from '$lib/assets/stable.svg'
+
 export let trend = undefined
 // export let trend = {
 //     amount: "1,45",
@@ -15,6 +19,21 @@ export let trend = undefined
 // export let active = false
 
 export let featured = false
+
+const trendarrow = () => {
+    if (!trend) return
+
+    if (trend.arrow == "stable") {
+        return stable
+    } else if (trend.arrow == "up") {
+        return up 
+    } else {
+        return down
+    }
+    return up
+}  
+
+
 </script>
 
 
@@ -47,9 +66,14 @@ export let featured = false
 
     {#if trend}
         <div class="grid place-content-end justify-start  auto-rows-max ">
-            <span class="text-xl text-white/40 select-none">
-                {trend.arrow} {trend.amount} {trend.unit} 
-            </span>
+
+            <div class="flex gap-1 justify-start items-start h-full">
+                <img src={trendarrow()} alt="">
+
+                <span class="text-xl text-white/40 select-none">
+                   {trend.amount} {trend.unit} 
+                </span>
+            </div>
         </div>
     {/if}
     
