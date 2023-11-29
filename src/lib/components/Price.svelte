@@ -189,7 +189,7 @@
     {/each}                               
 {/if}   -->
 
-<nav class="w-full h-10 fixed hidden inset-0 z-20 md:block">
+<nav class="w-full h-10 fixed hidden inset-0 z-20 md:block select-none">
     <img src={Logo} alt="">
 </nav>
 
@@ -201,7 +201,7 @@
         <ul class="flex gap-2"> 
             {#each trendTabOptions as option }
                 
-            <li class="bg-[--base] px-3 py-1  text-white/50 cursor-pointer hover:bg-[--strong]" on:click={()=> updateTrend(option) } class:active={currenTrend === option} >
+            <li class="bg-[--base] px-3 py-1  text-white/50 cursor-pointer hover:bg-[--strong] select-none" on:click={()=> updateTrend(option) } class:active={currenTrend === option} >
                 <span class="text-sm ">{option}</span>
             </li>
             {/each}

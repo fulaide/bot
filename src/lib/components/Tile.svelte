@@ -26,28 +26,28 @@ export let featured = false
     border border-white/40 z-10 " 
     class:col-span-2={featured} >
 
-    <span class="text-label  text-white/40 group-hover:hidden  group-hover:text-[--brand] group-hover:font-semibold">
+    <span class="text-label  text-white/40 group-hover:hidden  group-hover:text-[--brand] group-hover:font-semibold select-none">
         {content.label}
     </span>
 
-    <span class="text-amount  font-semibold text-white  group-hover:hidden">
+    <span class="text-amount  font-semibold text-white  group-hover:hidden select-none">
      {content.amount}
-        <span class="text-unit  text-white/10  group-hover:text-white/70 group-hover:font-semibold ml-1">
+        <span class="text-unit  text-white/10  group-hover:text-white/70 group-hover:font-semibold ml-1 select-none">
             {content.unit}
         </span>
     </span>
 
-    <span class="text-label text-white/40 hidden group-hover:block">
+    <span class="text-label text-white/40 hidden group-hover:block select-none">
         Source
     </span>
-    <span class="text-sub text-white/80 hidden group-hover:block">
+    <span class="text-sub text-white/80 hidden group-hover:block select-none">
         {content.source} 
     </span>
 
 
     {#if trend}
-        <div class="grid place-content-end justify-start  auto-rows-max">
-            <span class="text-xl text-white/40">
+        <div class="grid place-content-end justify-start  auto-rows-max ">
+            <span class="text-xl text-white/40 select-none">
                 {trend.arrow} {trend.amount} {trend.unit} 
             </span>
         </div>
